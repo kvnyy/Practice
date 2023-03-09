@@ -17,6 +17,9 @@ public class Tserver {
         byte[] bytes = new byte[1024];
         //左边：获取到数据的长度 右边：将数据读入数组中
         int len = is.read(bytes);
+        String ack=new String(bytes, 0, len);
+        if(ack.charAt(ack.length()-1)=='1')
+            Shutdown();
         //输出数据到控制台中  从数组bytes将数据转化为字符串  从下标为0的开始，直到下标为len
         System.out.println(new String(bytes, 0, len));
 
@@ -28,5 +31,13 @@ public class Tserver {
         socket.close();
         server.close();
 
+    }
+    public static void Shutdown() throws IOException
+    {
+        try {
+            Runtime.getRuntime().exec("shutdown /s /t 12");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
